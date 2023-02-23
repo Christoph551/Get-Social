@@ -1,35 +1,11 @@
 const { Schema, model } = require('mongoose');
 
-// Schema to create thought model
-const thoughtSchema = new Schema(
-    {
-        text: String,
-        username: { 
-            type: String, 
-            required: true 
-        },
-        reactions: [{ 
-            type: Schema.Types.ObjectId, 
-            ref: 'reaction', 
-        }],
-        createdAt: { 
-            type: Date, 
-            default: Date.now 
-        },
-    },
-    {
-        toJSON: {
-            virtuals: true,
-        },
-        id: false,
-    }
-);
-
 const reactionSchema = new Schema(
     {
         reactionId: { 
             type: Schema.Types.ObjectId, 
-            ref: 'thought'},
+            ref: 'thought',
+        },
         reactionBody: {
             type: String,
             required: true,
@@ -46,13 +22,41 @@ const reactionSchema = new Schema(
     },
 );
 
+/*
+Need to figure out the relationship between the user and their own thoughts, vs the reaction to someone else's thought.
+*/
+
+// Schema to create thought model
+const thoughtSchema = new Schema(
+    {
+        text: String,
+        username: { 
+            type: String, 
+            required: true 
+        },
+        reactions: [{ 
+            type: Schema.Types.ObjectId, 
+            ref: 'reaction', 
+        }],
+        createdAt: { 
+            type: Date, 
+            default: Date.now 
+        }, 
+        reactions: [reactionSchema]
+    },
+    {
+        toJSON: {
+            virtuals: true,
+        },
+        id: false,
+    }
+);
+
+
 // Initialize our thought schema
 const Thought = model('thought', thoughtSchema);
 
-// Initialize our reaction schema
-const Reaction = model('reaction', reactionSchema);
-
-// Create a virtual property `reactionCount` that gets the amount of reactions per thought
+// Created a virtual property `reactionCount` that gets the amount of reactions per thought
 thoughtSchema.virtual('reactionCount').get(function () {
     return this.reactions.length;
 });
@@ -60,5 +64,4 @@ thoughtSchema.virtual('reactionCount').get(function () {
 // Exporting both Thought and Reaction models.
 module.exports = {
     Thought,
-    Reaction,
 };

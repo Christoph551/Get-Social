@@ -2,49 +2,68 @@
 
 // User.js in models has username, email, thoughts and friends
 const names = [
-    'Chris Simmonds',
-    'Kammie Loya',
-    'Jim Jeffries',
-    'Anthony Matynka',
-    'Dannielle Green',
+    'Chris Simmonds', // [0]
+    'Kammie Loya', // [1]
+    'Jim Jeffries', // [2]
+    'Anthony Matynka', // [3]
+    'Dannielle Green', // [4]
 ]
 
+// required field
+const usernames = [
+    'ChrisS', // [0]
+    'KammieL', // [1]
+    'JimJ', // [2]
+    'AnthonyM', // [3]
+    'DannielleG', // [4]
+]
+
+// required field
+const email = [
+    'chris@email.com', // [0]
+    'kammie@email.com', // [1]
+    'jim@email.com', // [2]
+    'anthony@email.com', // [3]
+    'dannielle@email.com', // [4]
+]
+
+// trying to set up each line in an array is the same index throughout
 const thoughts = [
-    'Just ordered some wireless headphones and blue-light glasses!',
-    'My dog goes absolutely nuts when it rains. So much for sleep...',
-    'Coming to a city near you! Check out the calendar and pick up your tickets to see me live.',
-    'Ohio is waaaay to cold sometimes. I miss Arizona.',
-    'Taking my daughter to the Renaissance Festival for her 11th birthday. I may be more excited than her!',
+    'Just ordered some wireless headphones and blue-light glasses!', // [0]
+    'My dog goes absolutely nuts when it rains. So much for sleep...', // [1]
+    'Coming to a city near you! Check out the calendar and pick up your tickets to see me live.', // [2]
+    'Ohio is waaaay too cold sometimes. I miss Arizona.', // [3]
+    'Taking my daughter to the Renaissance Festival for her 11th birthday. I may be more excited than her!', // [4]
 ]
 
+// Should accept up to 280 characters
 const reactions = [
-    '🤓',
-    '🥱',
-    '😮',
-    '🥶',
-    '🥳',
+    'Right on! The glasses should help you sleep better.', // [0]
+    'Hahaha! My dog wigs out with wind and rain too. The struggle is real.', // [1]
+    'Just picked up my ticket to see the show. I cannot wait!', // [2]
+    'Yea, Arizona is pretty legit. Never had to shovel snow a day in my life.', // [3]
+    'Ooo, very cool! Can I come?', // [4]
 ]
 
-const userArray = [];
 
-// Need functions to pull information from the arrays
-const getUser = (arr) => {
-    const user = [];
-    for (let i = 0; i < arr.length; i++) {
-        user.push({ username: getUser(userArray) })
-    }
+// Function to get all users
+function getUsers() {
+    return names.map((name, index) => ({
+        name,
+        username: usernames[index],
+        email: email[index],
+    }));
 }
 
-const getThought = (arr) => {
-
-}
-
-const getReaction = (arr) => {
-
+// Function to get all thoughts
+function getThoughts() {
+    return thoughts.map((thought, index) => ({
+        thought,
+        reactions: reactions[index],
+    }));
 }
 
 module.exports = {
-    getUser,
-    getThought,
-    getReaction,
+    getUsers,
+    getThoughts,
 }

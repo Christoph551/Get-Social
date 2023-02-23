@@ -1,7 +1,7 @@
 // Including boilerplate code for the server
 const express = require('express');
 const db = require('./config/connection');
-const routes = require('./routes');
+// const routes = require('./routes');
 
 const PORT = 3001;
 const app = express();
@@ -12,6 +12,6 @@ app.use(express.json());
 
 db.once('open', () => {
     app.listen(PORT, () => {
-        console.log(`API server running on port ${PORT}!`);
+        console.log(`Get Social's server running on port ${PORT}!`);
     });
 });
