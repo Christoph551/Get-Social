@@ -24,3 +24,27 @@ const reactions = [
     '🥶',
     '🥳',
 ]
+
+const userArray = [];
+
+// Need functions to pull information from the arrays
+const getUser = (arr) => {
+    const user = [];
+    for (let i = 0; i < arr.length; i++) {
+        user.push({ username: getUser(userArray) })
+    }
+}
+
+const getThought = (arr) => {
+
+}
+
+const getReaction = (arr) => {
+
+}
+
+module.exports = {
+    getUser,
+    getThought,
+    getReaction,
+}
