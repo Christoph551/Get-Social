@@ -4,7 +4,7 @@ const reactionSchema = new Schema(
     {
         reactionId: { 
             type: Schema.Types.ObjectId, 
-            ref: 'thought',
+            ref: 'thoughts',
         },
         reactionBody: {
             type: String,
@@ -36,7 +36,7 @@ const thoughtSchema = new Schema(
         },
         reactions: [{ 
             type: Schema.Types.ObjectId, 
-            ref: 'reaction', 
+            ref: 'reactions', 
         }],
         createdAt: { 
             type: Date, 
@@ -55,13 +55,15 @@ const thoughtSchema = new Schema(
 
 // Initialize our thought schema
 const Thought = model('thought', thoughtSchema);
+const Reaction = model('reaction', reactionSchema);
 
 // Created a virtual property `reactionCount` that gets the amount of reactions per thought
 thoughtSchema.virtual('reactionCount').get(function () {
-    return this.reactions.length;
+    return this.reactionBody;
 });
 
 // Exporting both Thought and Reaction models.
 module.exports = {
     Thought,
+    Reaction,
 };

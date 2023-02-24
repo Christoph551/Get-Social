@@ -8,22 +8,26 @@ const userSchema = new Schema(
             unique: true,
             max_length: 50,
         },
-        // Must match a valid email address. (Look into Mongoose's matching validation - https://mongoosejs.com/docs/validation.html)
         email: {
             type: String,
             required: true,
             unique: true,
+            // Must match a valid email address. https://mongoosejs.com/docs/validation.html
+            match: [
+                /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 
+                'Please fill a valid email address',
+            ],
         },
         thoughts: [
             {
                 type: Schema.Types.ObjectId,
-                ref: 'Thought',
+                ref: 'thought',
             },
         ],
         friends: [
             {
                 type: Schema.Types.ObjectId,
-                ref: 'User',
+                ref: 'user',
             },
         ],
     },
@@ -37,6 +41,9 @@ const userSchema = new Schema(
 const User = model('user', userSchema);
 
 // Create a virtual called friendCount that retrieves the length of the user's friends array on query
+userSchema.virtual('friendCount').get(function () {
+    return this.friends;
+});
 
 module.exports = User;
 
