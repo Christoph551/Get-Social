@@ -13,14 +13,16 @@ connection.once('open', async () => {
 
     const userThoughts = [];
 
+    const users = getUsers();
+    const thoughts = getThoughts();
     // Seeded data has only 5 entries
-    for (let i = 0; i < 4; i++) {
-        const users = getUsers();
-        const thoughts = getThoughts();
+    for (let i = 0; i <= 4; i++) {
         
+        const newThought = await Thought.create({...thoughts[i], username: users[i].username});
+
         userThoughts.push({
-            users,
-            thoughts,
+            ...users[i],
+            thoughts: [newThought._id]
         })
     }
     // Calling getUsers and getThoughts functions that were imported from data.js
@@ -28,6 +30,8 @@ connection.once('open', async () => {
     // After deleting previous data from any prior server sessions, seed the corresponding data again
     await User.insertMany(userThoughts);
     // await Thought.insertMany(userThoughts)
+
+    // This is where you will need to add the creation of adding friends. 
 
     // Log the data to the console to show relationships 
     console.table(userThoughts);

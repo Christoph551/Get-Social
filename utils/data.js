@@ -1,4 +1,5 @@
 // May need a variable as an array for the user's friends?
+const { Types } = require('mongoose');
 
 // User.js in models has username, email, thoughts and friends
 const names = [
@@ -38,11 +39,15 @@ const thoughts = [
 
 // Should accept up to 280 characters
 const reactions = [
-    'Right on! The glasses should help you sleep better.', // [0]
-    'Hahaha! My dog wigs out with wind and rain too. The struggle is real.', // [1]
-    'Just picked up my ticket to see the show. I cannot wait!', // [2]
-    'Yea, Arizona is pretty legit. Never had to shovel snow a day in my life.', // [3]
-    'Ooo, very cool! Can I come?', // [4]
+    {reactionId: new Types.ObjectId(), username:'AnthonyM', reactionBody: 'Right on! The glasses should help you sleep better.'}, // [0]
+
+    {reactionId: new Types.ObjectId(), username: 'DannielleG', reactionBody: 'Hahaha! My dog wigs out with wind and rain too. The struggle is real.'}, // [1]
+
+    {reactionId: new Types.ObjectId(), username: 'ChrisS', reactionBody: 'Just picked up my ticket to see the show. I cannot wait!'}, // [2]
+
+    {reactionId: new Types.ObjectId(), username: 'JimJ', reactionBody: 'Yea, Arizona is pretty legit. Never had to shovel snow a day in my life.'}, // [3]
+
+    {reactionId: new Types.ObjectId(), username: 'AnthonyM', reactionBody: 'Ooo, very cool! Can I come?'}, // [4]
 ]
 
 
@@ -57,9 +62,10 @@ function getUsers() {
 
 // Function to get all thoughts
 function getThoughts() {
-    return thoughts.map((thought, index) => ({
-        thought,
-        reactions: reactions[index],
+    return thoughts.map((thoughtText, index) => ({
+        thoughtText,
+        // reactions: []
+        reactions: [reactions[index]],
     }));
 }
 

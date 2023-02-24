@@ -4,7 +4,7 @@ const reactionSchema = new Schema(
     {
         reactionId: { 
             type: Schema.Types.ObjectId, 
-            default: () => new Types.ObjectId(),
+            default: () => new Schema.Types.ObjectId(),
         },
         reactionBody: {
             type: String,
@@ -51,7 +51,7 @@ const thoughtSchema = new Schema(
 
 
 // Initialize our thought schema
-const Thought = model('thoughts', thoughtSchema);
+const Thought = model('thought', thoughtSchema);
 // const Reaction = model('reactions', reactionSchema);
 
 // Created a virtual property `reactionCount` that gets the amount of reactions per thought
