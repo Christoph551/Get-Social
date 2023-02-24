@@ -4,7 +4,7 @@ const reactionSchema = new Schema(
     {
         reactionId: { 
             type: Schema.Types.ObjectId, 
-            ref: 'thoughts',
+            default: () => new Types.ObjectId(),
         },
         reactionBody: {
             type: String,
@@ -29,15 +29,12 @@ Need to figure out the relationship between the user and their own thoughts, vs 
 // Schema to create thought model
 const thoughtSchema = new Schema(
     {
-        text: String,
+        thoughtText: {
+            type: String,
+        },
         username: { 
             type: String, 
-            required: true 
         },
-        reactions: [{ 
-            type: Schema.Types.ObjectId, 
-            ref: 'reactions', 
-        }],
         createdAt: { 
             type: Date, 
             default: Date.now 
@@ -54,16 +51,15 @@ const thoughtSchema = new Schema(
 
 
 // Initialize our thought schema
-const Thought = model('thought', thoughtSchema);
-const Reaction = model('reaction', reactionSchema);
+const Thought = model('thoughts', thoughtSchema);
+// const Reaction = model('reactions', reactionSchema);
 
 // Created a virtual property `reactionCount` that gets the amount of reactions per thought
 thoughtSchema.virtual('reactionCount').get(function () {
-    return this.reactionBody;
+    return this.reactions.length;
 });
 
-// Exporting both Thought and Reaction models.
+// Exporting Thought model.
 module.exports = {
-    Thought,
-    Reaction,
+    Thought
 };

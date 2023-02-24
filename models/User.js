@@ -4,13 +4,10 @@ const userSchema = new Schema(
     {
         username: {
             type: String,
-            required: true,
             unique: true,
-            max_length: 50,
         },
         email: {
             type: String,
-            required: true,
             unique: true,
             // Must match a valid email address. https://mongoosejs.com/docs/validation.html
             match: [
@@ -38,11 +35,11 @@ const userSchema = new Schema(
     },
 );
 
-const User = model('user', userSchema);
+const User = model('users', userSchema);
 
 // Create a virtual called friendCount that retrieves the length of the user's friends array on query
 userSchema.virtual('friendCount').get(function () {
-    return this.friends;
+    return this.friends.length;
 });
 
 module.exports = User;
