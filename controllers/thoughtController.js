@@ -81,20 +81,18 @@ const thoughtController = {
             .catch(err => res.json(err));
     },
     // add reaction to thought
-    addReaction({ params, body }, res) {
+    addReaction(req, res) {
         Thought.findOneAndUpdate(
-            { _id: params.thoughtId },
-            { $push: { reactions: body } },
+            { _id: req.params.thoughtId },
+            { $addToSet: { reactions: req.body } },
             { new: true, runValidators: true }
         )
-            .then(dbThoughtData => {
-                if (!dbThoughtData) {
-                    res.status(404).json({ message: 'No thought with this id!' });
-                    return;
-                }
-                res.json(dbThoughtData);
-            })
-            .catch(err => res.json(err));
+        .then((thought) =>
+            !thought
+                ? res.status(404).json({ message: 'No thought with this id!' })
+            : res.json(thought)
+        )
+        .catch((err) => res.status(500).json(err));
     },
     // remove reaction
     removeReaction({ params }, res) {

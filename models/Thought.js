@@ -1,11 +1,11 @@
-const { Schema, model } = require('mongoose');
-const moment = require('moment');
+const { Schema, model, Types } = require('mongoose');
+const dayjs = require('dayjs');
 
 const reactionSchema = new Schema(
     {
         reactionId: { 
-            type: Schema.Types.ObjectId, 
-            default: () => new Schema.Types.ObjectId(),
+            type: Types.ObjectId, 
+            default: () => new Types.ObjectId(),
         },
         reactionBody: {
             type: String,
@@ -20,8 +20,15 @@ const reactionSchema = new Schema(
         createdAt: {
             type: Date, 
             default: Date.now,
-        }
+            get: createdAt => dayjs(createdAt).format('MMM DD, YYYY [at] h:mm:ss a')
+        },
     },
+    {
+        toJSON: {
+            virtuals: true,
+            getters: true,
+        }
+    }
 );
 
 // Schema to create thought model
@@ -36,6 +43,7 @@ const thoughtSchema = new Schema(
         createdAt: { 
             type: Date, 
             default: Date.now,
+            get: createdAt => dayjs(createdAt).format('MMM DD, YYYY [at] h:mm:ss a')
         }, 
         username: { 
             type: String, 
@@ -46,6 +54,7 @@ const thoughtSchema = new Schema(
     {
         toJSON: {
             virtuals: true,
+            getters: true,
         },
         id: false,
     }
