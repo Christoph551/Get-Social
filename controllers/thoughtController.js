@@ -50,13 +50,22 @@ const thoughtController = {
             .catch(err => res.json(err));
     },
     // update thought by id
-    // updateThought({ params, body }, res) {
-    //     Thought.findAndUpdateOne(
-    //         { _id: params.thoughtId },
-    //         { $set: body },
-    //         { runValidators: true, new: true }
-    //     )
-    // },
+    updateThought(req, res) {
+        Thought.findOneAndUpdate(
+            { _id: req.params.thoughtId },
+            { $set: req.body },
+            { runValidators: true, new: true }
+        )
+            .then((thought) =>
+            !thought
+                ? res.status(404).json({ message: 'No thought with this id' })
+                : res.status(200).json('You have successfully updated a thought.')
+            )
+            .catch((err) => {
+            console.log(err);
+            res.status(500).json(err);
+            });
+        },
     // delete thought
     deleteThought({ params }, res) {
         Thought.findOneAndDelete({ _id: params.thoughtId })
@@ -75,7 +84,7 @@ const thoughtController = {
                     res.status(404).json({ message: 'No user with this id!' });
                     return;
                 }
-                res.json(dbUserData);
+                res.json('You have successfully deleted a thought.');
             })
             .catch(err => res.json(err));
     },

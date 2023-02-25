@@ -37,7 +37,7 @@ const userController = {
                 if (!dbUserData) {
                     return res.status(404).json({ message: 'No user with that ID' });
                 }
-                return res.json(dbUserData);
+                return res.json('You have successfully updated a user.');
             })
             .catch((err) => res.status(500).json(err));
         },
@@ -71,7 +71,7 @@ const userController = {
             .then((user) =>{
                 !user
                 ? res.status(404).json({message: "No user found"})
-                : res.status(200).json(user)
+                : res.status(200).json('Friend Added!')
             })
             .catch((err) => res.status(500).json(err))
         },
