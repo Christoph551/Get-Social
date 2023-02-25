@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const moment = require('moment');
 
 const reactionSchema = new Schema(
     {
@@ -9,7 +10,8 @@ const reactionSchema = new Schema(
         reactionBody: {
             type: String,
             required: true,
-            max_length: 280,
+            minLength: 1,
+            maxLength: 280,
         },
         username: {
             type: String,
@@ -22,23 +24,23 @@ const reactionSchema = new Schema(
     },
 );
 
-/*
-Need to figure out the relationship between the user and their own thoughts, vs the reaction to someone else's thought.
-*/
-
 // Schema to create thought model
 const thoughtSchema = new Schema(
     {
         thoughtText: {
             type: String,
-        },
-        username: { 
-            type: String, 
+            required: true,
+            minLength: 1,
+            maxLength: 280
         },
         createdAt: { 
             type: Date, 
-            default: Date.now 
+            default: Date.now,
         }, 
+        username: { 
+            type: String, 
+            required: true
+        },
         reactions: [reactionSchema]
     },
     {
@@ -51,7 +53,7 @@ const thoughtSchema = new Schema(
 
 
 // Initialize our thought schema
-const Thought = model('thought', thoughtSchema);
+const Thought = model('thoughts', thoughtSchema);
 // const Reaction = model('reactions', reactionSchema);
 
 // Created a virtual property `reactionCount` that gets the amount of reactions per thought

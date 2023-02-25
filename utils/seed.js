@@ -11,6 +11,7 @@ connection.once('open', async () => {
     await User.deleteMany({});
     await Thought.deleteMany({});
 
+    // Creating empty array variable to push for loop data into.
     const userThoughts = [];
 
     const users = getUsers();
@@ -25,11 +26,9 @@ connection.once('open', async () => {
             thoughts: [newThought._id]
         })
     }
-    // Calling getUsers and getThoughts functions that were imported from data.js
 
     // After deleting previous data from any prior server sessions, seed the corresponding data again
     await User.insertMany(userThoughts);
-    // await Thought.insertMany(userThoughts)
 
     // This is where you will need to add the creation of adding friends. 
 

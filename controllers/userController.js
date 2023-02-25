@@ -30,7 +30,7 @@ const userController = {
     },
     // update a user by its _id and return the updated user
     updateUser(req, res) {
-        User.findAndUpdateOne(
+        User.findOneAndUpdate(
             { _id: req.params.userId },
             { $set: req.body },
             { runValidators: true, new: true }
@@ -43,14 +43,26 @@ const userController = {
             })
             .catch((err) => res.status(500).json(err));
         },
-        // delete a user by its _id
-    deleteUser(req, res) {
-        User.findAndRemoveOne(
-            { _id: req.params.userId },
-            { $set: req.body },
-            { runValidators: true, new: true }
+    // delete a user by its _id
+    deleteUser( req, res ) {
+        User.findOneAndRemove({ _id: req.params.userId })
+            .then((deletedUser) => 
+                !deletedUser ? res.status(404).json({ message: 'No user with this ID'})
+                : User.findOneAndUpdate(
+                    { users: req.params.userId },
+                    { $pull: { users: req.params.userId } },
+                    { new: false }
+                )
             )
+            .then(dbUserData => {
+                if (!dbUserData) {
+                    res.status(404).json({ message: 'No user with this id!' });
+                    return;
+                }
+                res.json('You have successfully deleted a user.');
+            })
+            .catch(err => res.json(err));
         }
-    };
+};
 
 module.exports = userController;
