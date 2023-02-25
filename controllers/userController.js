@@ -1,12 +1,10 @@
 const User = require('../models/User');
-// const { Thought } = require('../models/Thought')
 
 // Example from class repo
 const userController = {
     getAllUsers(req, res) {
         User.find()
             .select('-__v')
-        // populate('thoughts')
             .then((users) => res.json(users))
             .catch((err) => {
                 console.log( { message: err } )
@@ -63,6 +61,7 @@ const userController = {
             })
             .catch(err => res.json(err));
         },
+        // function to find a user by id and create an association with another user
         createFriend(req, res){
             User.findOneAndUpdate(
                 {_id: req.params.userId},
@@ -76,7 +75,7 @@ const userController = {
             })
             .catch((err) => res.status(500).json(err))
         },
-    
+        // function to delete the friend association
         deleteFriend(req,res){
             User.findOneAndUpdate(
                 {_id: req.params.userId},
